@@ -25,12 +25,32 @@ def change_wallpaper():
 		target_time = datetime.datetime(now.year, now.month, now.day, sunset_hour, sunset_minute)
 
 		while datetime.datetime.now() < target_time:
-			time.sleep
+			time.sleep(30)
 
-		ctypes.windll.user32.SystemParametersInfoW(20, 0, "W:\\Backup\\Documents\\Wallpapers\\f250353280.jpg" , 0)
+		ctypes.windll.user32.SystemParametersInfoW(20, 0, "W:\\Backup\\Documents\\Wallpapers\\studioghibli.jpg", 0)
+
+		# testing / wait until midnight to call function again 
+		while now.hour > 0:
+			time.sleep(60)
+
 		changewallpaper()
 	else: # it is before noon / set day time wallpaper 
+		sunrise = data['sunrise']
+		sunrise_hour = int(sunrise[0] + sunrise[1]) - 4
+		sunrise_minute = int(sunrise[3] + sunrise[4])
 
+		# set target time for wallpaper to change 
+		target_time = datetime.datetime(now.year, now.month, now.day, sunrise_hour, sunrise_minute)
+
+		while datetime.datetime.now() < target_time:
+			time.sleep(30)
+
+		ctypes.windll.user32.SystemParametersInfoW(20, 0, "W:\\Backup\\Documents\\Wallpapers\\uow8tl3r8sw41.jpg", 0)
+
+		while now.hour < 12:
+			time.sleep(60)
+
+		changewallpaper()
 
 change_wallpaper()
 
