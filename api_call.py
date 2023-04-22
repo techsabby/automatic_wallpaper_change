@@ -9,23 +9,18 @@ data = api_json.get("results")
 
 # get hour and minute of sunrise 
 sunrise = data['sunrise']
-sunrise_hour = sunrise[0] + sunrise[1]
-sunrise_hour = int(sunrise_hour) - 4
-sunrise_min = sunrise[4] + sunrise[5]
-sunrise_min = int(sunrise_min)
+sunrise_hour = int(sunrise[0] + sunrise[1]) - 4
+sunrise_min = int(sunrise[3] + sunrise[4])
 
 # get hour and minute of sunset 
 sunset = data['sunset']
-sunset_hour = sunset[0] + sunset[1]
-sunset_hour = int(sunset_hour) - 4
+sunset_hour = int(sunset[0] + sunset[1]) - 4
+sunset_minute = int(sunset[3] + sunset[4])
 
-
-
-
-print(sunrise_hour)
-
-
-
+print("Sunrise hour: " + str(sunrise_hour))
+print("Sunrise minute: " + str(sunrise_min))
+print("Sunset hour: " + str(sunset_hour))
+print("Sunset minute: " + str(sunset_minute))
 
 
 
