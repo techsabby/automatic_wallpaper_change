@@ -2,13 +2,15 @@ import datetime
 import time 
 import ctypes
 
+print(datetime.datetime.now().hour)
+"""
 now = datetime.datetime.now()
 print(now.year)
 print(now.month)
 print(now.day)
 print(now.hour)
 print(now.minute)
-
+"""
 
 
 

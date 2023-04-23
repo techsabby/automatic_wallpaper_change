@@ -2,6 +2,7 @@ import time
 import json
 import requests
 import datetime
+import ctypes
 
 # function calls itself forever 
 def change_wallpaper():
@@ -25,13 +26,13 @@ def change_wallpaper():
 		target_time = datetime.datetime(now.year, now.month, now.day, sunset_hour, sunset_minute)
 
 		while datetime.datetime.now() < target_time:
-			time.sleep(30)
+			time.sleep(60)
 
 		ctypes.windll.user32.SystemParametersInfoW(20, 0, "W:\\Backup\\Documents\\Wallpapers\\studioghibli.jpg", 0)
 
-		# testing / wait until midnight to call function again 
-		while now.hour > 0:
-			time.sleep(60)
+		# wait until midnight to call function again 
+		while datetime.date.now().hour > 0:
+			time.sleep(1200)
 
 		changewallpaper()
 	else: # it is before noon / set day time wallpaper 
@@ -43,37 +44,13 @@ def change_wallpaper():
 		target_time = datetime.datetime(now.year, now.month, now.day, sunrise_hour, sunrise_minute)
 
 		while datetime.datetime.now() < target_time:
-			time.sleep(30)
+			time.sleep(60)
 
 		ctypes.windll.user32.SystemParametersInfoW(20, 0, "W:\\Backup\\Documents\\Wallpapers\\uow8tl3r8sw41.jpg", 0)
 
-		while now.hour < 12:
-			time.sleep(60)
+		while datetime.datetime.now().hour < 12:
+			time.sleep(1200)
 
 		changewallpaper()
 
 change_wallpaper()
-
-"""
-now = datetime.datetime.now()
-print(now.hour)
-if (now.hour >= 12):
-	print("It is after noon.")
-else:
-	print("It is before noon.")
-
-
-
-
-def senario_a():
-	print("Senario A ran")
-	time.sleep(10)
-	senario_b()
-
-def senario_b():
-	print("Senario B ran")
-	time.sleep(10)
-	senario_a()
-
-senario_a()
-"""
