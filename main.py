@@ -4,8 +4,9 @@ import requests
 import datetime
 import ctypes
 
-# this program gets the sunrise and sunset times for your area and compares it against the 
-# current time to automatically set your wallpaper based on if its day or night time :) 
+# this program gets the sunrise and sunset times for your area 
+# via an api call and compares it against the current time to automatically 
+# set your wallpaper based on if its day or night time :) 
 
 # set exact path of wallpapers here 
 day_wallpaper = "C:\\Users\\SetYourPathHere"
