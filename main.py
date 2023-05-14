@@ -56,8 +56,6 @@ def change_wallpaper():
 	sunset_time = return_sunset(data, datetime.date.today())
 	sunrise_time = return_sunrise(data, datetime.date.today())
 
-	print(sunrise_time)
-
 	# checks to see if the time is after sunset then waits for tommorow's sunrise 
 	if (datetime.datetime.now() > sunset_time):
 		tmmr_date = str(datetime.date.today() + datetime.timedelta(days=1))
