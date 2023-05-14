@@ -1,5 +1,5 @@
-import time
 import json
+import time
 import requests
 import datetime
 import ctypes
@@ -8,12 +8,23 @@ import ctypes
 # via an api call and compares it against the current time to automatically 
 # set your wallpaper based on if its day or night time :) 
 
+# url for api call 
+url = "https://api.sunrise-sunset.org/json?lat=40.7127768&lng=-74.005974&date="
+
 # set exact path of wallpapers here 
 day_wallpaper = "C:\\Users\\SetYourPathHere"
 night_wallpaper = "C:\\Users\\SetYourPathHere"
 
-# returns datetime object with sunset time 
-def set_sunset(data, now):
+# --------------------------- help functions ---------------------------
+def return_apicall(date):
+	api_url = url + date
+	response = requests.get(api_url)
+	api_json = response.json()
+	data = api_json.get("results")
+
+	return data
+
+def return_sunset(data, date):
 	sunset = data['sunset']
 
 	if (sunset[1] == ':'):
@@ -22,12 +33,11 @@ def set_sunset(data, now):
 	sunset_hour = int(sunset[0] + sunset[1]) - 4
 	sunset_hour = sunset_hour + 12 # set hour to be in 24 hour format 
 	sunset_minute = int(sunset[3] + sunset[4])
-	sunset_time = datetime.datetime(now.year, now.month, now.day, sunset_hour, sunset_minute)
+	sunset_time = datetime.datetime(date.year, date.month, date.day, sunset_hour, sunset_minute)
 
 	return sunset_time
 
-# returns datetime object with sunrise time 
-def set_sunrise(data, now):
+def return_sunrise(data, date):
 	sunrise = data['sunrise']
 
 	if (sunrise[1] == ":"):
@@ -35,46 +45,48 @@ def set_sunrise(data, now):
 
 	sunrise_hour = int(sunrise[0] + sunrise[1]) - 4
 	sunrise_minute = int(sunrise[3] + sunrise[4])
-	sunrise_time = datetime.datetime(now.year, now.month, now.day, sunrise_hour, sunrise_minute)
+	sunrise_time = datetime.datetime(date.year, date.month, date.day, sunrise_hour, sunrise_minute)
 
 	return sunrise_time
 
-# infinite recursion
+# --------------------------- main functions ---------------------------
 def change_wallpaper():
+	today_date = str(datetime.date.today())
+	data = return_apicall(today_date)
+	sunset_time = return_sunset(data, datetime.date.today())
+	sunrise_time = return_sunrise(data, datetime.date.today())
 
-	# get sunrise and sunset times from https://api.sunrise-sunset.org
-	api_url = "https://api.sunrise-sunset.org/json?lat=40.7127768&lng=-74.005974"
-	response = requests.get(api_url)
-	api_json = response.json()
-	data = api_json.get("results")
+	print(sunrise_time)
 
-	# get current system time in 24h format / and sunrise + sunset times
-	now = datetime.datetime.now()
-	sunset_time = set_sunset(data, now)
-	sunrise_time = set_sunrise(data, now)
+	# checks to see if the time is after sunset then waits for tommorow's sunrise 
+	if (datetime.datetime.now() > sunset_time):
+		tmmr_date = str(datetime.date.today() + datetime.timedelta(days=1))
+		data = return_apicall(tmmr_date)
+		sunrise_time = return_sunrise(data, datetime.date.today() + datetime.timedelta(days=1))
 
-	# set night time wallpaper
-	if (now < sunset_time and now > sunrise_time): # it must be day time 
-
-		ctypes.windll.user32.SystemParametersInfoW(20, 0, day_wallpaper, 0)
-
-		while datetime.datetime.now() < sunset_time: # loop until current time > sunset time 
+		while (datetime.datetime.now() < sunrise_time):
 			time.sleep(60)
 
 		ctypes.windll.user32.SystemParametersInfoW(20, 0, night_wallpaper, 0)
 
 		change_wallpaper()
 
-	# set day time wallpaper
-	else: # it must be night time 
+	# otherwise checks to see if it's before sunrise today then waits for either sunrise or sunset today 
+	else:
+		if (datetime.datetime.now() < sunrise_time):
+			while(datetime.datetime.now() < sunrise_time):
+				time.sleep(60)
 
-		ctypes.windll.user32.SystemParametersInfoW(20, 0, night_wallpaper, 0)
+			ctypes.windll.user32.SystemParametersInfoW(20, 0, day_wallpaper, 0)
 
-		while datetime.datetime.now() < sunrise_time: # loop until current time > sunrise time 
-			time.sleep(60)
+			change_wallpaper()
 
-		ctypes.windll.user32.SystemParametersInfoW(20, 0, day_wallpaper, 0)
+		else:
+			while(datetime.datetime.now() < sunset_time):
+				time.sleep(60)
 
-		change_wallpaper()
+			ctypes.windll.user32.SystemParametersInfoW(20, 0, night_wallpaper, 0)
+
+			change_wallpaper()
 
 change_wallpaper()
