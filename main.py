@@ -8,8 +8,11 @@ import ctypes
 # via an api call and compares it against the current time to automatically 
 # set your wallpaper based on if its day or night time :) 
 
+latitude = "set your latitude here"
+longitude = "set your longitude here"
+
 # url for api call 
-url = "https://api.sunrise-sunset.org/json?lat=40.7127768&lng=-74.005974&date="
+url = "https://api.sunrise-sunset.org/json?lat=" + latitude + "&lng=" + longitude + "&date="
 
 # set exact path of wallpapers here 
 day_wallpaper = "C:\\Users\\SetYourPathHere"
