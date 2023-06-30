@@ -7,6 +7,7 @@ Done (5/28/23)
 - Will automatically change wallpaper based on day or night time 
 
 Short Term Features To Implement 
+- Allow users to easily set location based on city 
 - Create seamless installation procedure 
 - Add seasonal wallpaper rotation 
 - Add weather specific wallpaper rotation based on weather api 
