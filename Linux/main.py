@@ -1,10 +1,12 @@
 import os
 import time
 import requests
-import ctypes
 import datetime
 
-# set location 
+# this program gets the sunrise and sunset times for your area 
+# via an api call and compares it against the current time to automatically 
+# set your wallpaper based on if its day or night time :) 
+
 latitude = ""
 longitude = ""
 
@@ -13,11 +15,11 @@ api_url = "https://api.sunrise-sunset.org/json?lat=" + latitude + "&lng=" + long
 
 # --------------------------- help functions --------------------------- #
 def return_apicall(date):
-    response = requests.get(api_url + date)
-    api_json = response.json()
-    data = api_json.get("results")
-    
-    return data
+	response = requests.get(api_url + date)
+	api_json = response.json()
+	data = api_json.get("results")
+	
+	return data
 
 def return_sunset(data, date):
 	sunset = data['sunset']
@@ -46,17 +48,43 @@ def return_sunrise(data, date):
 
 # --------------------------- main function  --------------------------- #
 def change_wallpaper():
-    today_date = str(datetime.date.today())
-    data = return_apicall(today_date)
-    sunrise_time = return_sunrise(data, datetime.date.today())
-    sunset_time = return_sunset(data, datetime.date.today())
+	today_date = str(datetime.date.today())
+	data = return_apicall(today_date)
+	sunrise_time = return_sunrise(data, datetime.date.today())
+	sunset_time = return_sunset(data, datetime.date.today())
 
-    print(datetime.datetime.now())
+	# checks to see if the time is after sunset then waits for tommorow's sunrise
+	if (datetime.datetime.now() > sunset_time):
+		tmmr_date = str(datetime.date.today() + datetime.timedelta(days=1))
+		data = return_apicall(today_date)
+		sunrise_time = return_sunrise(data, datetime.date.today() + datetime.timedelta(days=1))
 
-    if (datetime.datetime.now() > sunrise_time):
-	    tmmr_date = str(datetime.date.today() + datetime.timedelta(days=1))
+		while (datetime.datetime.now() < sunrise_time):
+			time.sleep(60)
 
-#os.system("gsettings set org.gnome.desktop.background picture-uri file://")
-#os.system("gsettings set org.gnome.desktop.background picture-uri-dark file://")
+		os.system("gsettings set org.gnome.desktop.background picture-uri file:///path/to/night/wallpaper")
+		os.system("gsettings set org.gnome.desktop.background picture-uri-dark file:///path/to/night/wallpaper")
+
+		change_wallpaper()
+
+	# otherwise checks to see if it's before sunrise today then waits for either sunrise or sunset today 
+	else:
+		if (datetime.datetime.now() < sunrise_time):
+			while(datetime.datetime.now() < sunrise_time):
+				time.sleep(60)
+
+			os.system("gsettings set org.gnome.desktop.background picture-uri file:///path/to/day/wallpaper")
+			os.system("gsettings set org.gnome.desktop.background picture-uri-dark file:///path/to/day/wallpaper")
+			
+			change_wallpaper()
+
+		else:
+			while(datetime.datetime.now() < sunset_time):
+				time.sleep(60)
+
+			os.system("gsettings set org.gnome.desktop.background picture-uri file:///path/to/day/wallpaper")
+			os.system("gsettings set org.gnome.desktop.background picture-uri-dark file:///path/to/day/wallpaper")
+			
+			change_wallpaper()
 
 change_wallpaper()
