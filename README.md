@@ -14,7 +14,6 @@ Short Term Features To Implement
 - Add seasonal wallpaper rotation 
 - Add weather specific wallpaper rotation based on weather api 
 - Account for daylight savings time 
-- Create Linux version
 - Create Mac version 
 - Create GUI 
 - Add option to automatically pull new wallpapers daily from external source 
