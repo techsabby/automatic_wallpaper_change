@@ -1,6 +1,8 @@
 import time
 import logging
 import datetime
+
+import weather
 import functions
 
 logging.basicConfig(filename='log_file.log', encoding='utf-8', level=logging.DEBUG, format='%(asctime)s %(message)s')
@@ -8,6 +10,10 @@ logging.basicConfig(filename='log_file.log', encoding='utf-8', level=logging.DEB
 # this program gets the sunrise and sunset times for your area 
 # via an api call and compares it against the current time to automatically 
 # to set your wallpaper based on if its day or night time :) 
+
+day_sunny_wallpaper = "day.jpeg"
+day_rainy_wallpaper = "night.png"
+night_wallpaper = "night.png"
 
 while True:
     logging.info("Program started")
@@ -23,7 +29,8 @@ while True:
         api_data = functions.return_apicall(today_date) # still passing today_date b/c api provides next day info after sunset
         sunrise_date_time_EST = functions.return_sunrise_date_time_EST(api_data, tomorrow_date)
 
-        functions.run_gsettings("set_night_wallpaper")
+        print(weather.get_condition())
+        functions.run_gsettings(night_wallpaper)
 
         while (datetime.datetime.now() < sunrise_date_time_EST):
             time.sleep(60)

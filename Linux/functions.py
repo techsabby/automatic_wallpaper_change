@@ -9,8 +9,6 @@ api_url = "https://api.sunrise-sunset.org/json?lat=" + latitude + "&lng=" + long
 
 gsettings_command = "gsettings set org.gnome.desktop.background picture-uri"
 wallpaper_path = "/home/sabby/Pictures/Automatic/"
-day_wallpaper_name = "day.jpeg"
-night_wallpaper_name = "night.png"
 
 def return_apicall(date):
     response = requests.get(api_url + date)
@@ -45,10 +43,6 @@ def return_sunset_date_time_EST(api_data, date):
 	return sunset_date_time_EST
 
 # changing wallpapers based on system light/dark theme currently not supported (both are run)
-def run_gsettings(time_of_day):
-    if (time_of_day == "set_day_wallpaper"):
-        os.system(gsettings_command + " //" + wallpaper_path + day_wallpaper_name)
-        os.system(gsettings_command + "-dark //" + wallpaper_path + day_wallpaper_name)
-    else:
-        os.system(gsettings_command + " //" + wallpaper_path + night_wallpaper_name)
-        os.system(gsettings_command + "-dark //" + wallpaper_path + night_wallpaper_name)
+def run_gsettings(wallpaper_name):
+	os.system(gsettings_command + " //" + wallpaper_path + wallpaper_name)
+	os.system(gsettings_command + "-dark //" + wallpaper_path + wallpaper_name)
