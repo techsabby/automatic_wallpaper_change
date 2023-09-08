@@ -7,12 +7,14 @@ Changes wallpaper based on various factors such as time, location, or season.
 
 (08/21/23): Added Linux version 
 
+WIP Currently
+- Add weather specific wallpaper rotation based on weather api 
+
 Short Term Features To Implement 
 - Allow users to easily set location based on city
 - Add option to wait x amount of minutes after twilight to change wallpapers 
 - Create seamless installation procedure 
 - Add seasonal wallpaper rotation 
-- Add weather specific wallpaper rotation based on weather api 
 - Account for daylight savings time 
 - Create Mac version 
 - Create GUI 
