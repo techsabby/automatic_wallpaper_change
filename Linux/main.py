@@ -29,32 +29,51 @@ while True:
         api_data = functions.return_apicall(today_date) # still passing today_date b/c api provides next day info after sunset
         sunrise_date_time_EST = functions.return_sunrise_date_time_EST(api_data, tomorrow_date)
 
-        print(weather.get_condition())
         functions.run_gsettings(night_wallpaper)
 
         while (datetime.datetime.now() < sunrise_date_time_EST):
             time.sleep(60)
 
-        functions.run_gsettings("set_day_wallpaper")
+
+        if(weather.get_condition() < 1006): 
+            functions.run_gsettings(day_sunny_wallpaper)
+        else:
+            functions.run_gsettings(day_rainy_wallpaper)
+
         logging.info("2")
 
     else:
         if (datetime.datetime.now() < sunrise_date_time_EST):
             logging.info("3")
-            functions.run_gsettings("set_night_wallpaper")
+            
+            functions.run_gsettings(night_wallpaper)
 
             while(datetime.datetime.now() < sunrise_date_time_EST):
                 time.sleep(60)
 
-            functions.run_gsettings("set_day_wallpaper")
+            if(weather.get_condition() < 1006): 
+                functions.run_gsettings(day_sunny_wallpaper)
+            else:
+                functions.run_gsettings(day_rainy_wallpaper)
+
             logging.info("4")
 
         else:
             logging.info("5")
-            functions.run_gsettings("set_day_wallpaper")
+            
+            if(weather.get_condition() < 1006): 
+                functions.run_gsettings(day_sunny_wallpaper)
+            else:
+                functions.run_gsettings(day_rainy_wallpaper)
 
             while(datetime.datetime.now() < sunset_date_time_EST):
                 time.sleep(60)
 
-            functions.run_gsettings("set_night_wallpaper")
+                if(weather.get_condition() < 1006): 
+                    functions.run_gsettings(day_sunny_wallpaper)
+                else:
+                    functions.run_gsettings(day_rainy_wallpaper)
+
+            functions.run_gsettings(night_wallpaper)
+
             logging.info("6")
