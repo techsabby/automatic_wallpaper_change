@@ -6,7 +6,9 @@ Changes wallpaper based on various factors such as time, location, or season.
 **Progression**
 
 (05/28/23): Will automatically change wallpaper based on day or night time
+
 (08/21/23): Added Linux version 
+
 (09/08/23): Added weather specific wallpaper rotation based on weather api 
 
 **Short Term Features To Implement** 
