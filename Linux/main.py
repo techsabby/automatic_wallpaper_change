@@ -5,14 +5,14 @@ import datetime
 import weather
 import functions
 
-logging.basicConfig(filename='log_file.log', encoding='utf-8', level=logging.DEBUG, format='%(asctime)s %(message)s')
+logging.basicConfig(filename="log_file.log", encoding='utf-8', level=logging.DEBUG, format='%(asctime)s %(message)s')
 
 # this program gets the sunrise and sunset times for your area 
 # via an api call and compares it against the current time to automatically 
 # to set your wallpaper based on if its day or night time :) 
 
 day_sunny_wallpaper = "day.jpeg"
-day_rainy_wallpaper = "night.png"
+day_rainy_wallpaper = "rain.png"
 night_wallpaper = "night.png"
 
 while True:
