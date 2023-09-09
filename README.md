@@ -1,8 +1,7 @@
 # automatic_wallpaper_change
 Changes wallpaper based on various factors such as time, location, or season.
 
-**Currently Working On**
-- Create GUI  
+**Currently Working On:** Creating GUI 
 
 **Progression**
 
