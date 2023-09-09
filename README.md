@@ -9,7 +9,7 @@ Changes wallpaper based on various factors such as time, location, or season.
 
 (08/21/23): Added Linux version 
 
-(09/08/23): Added weather specific wallpaper rotation based on weather api 
+(09/08/23): Added weather specific wallpaper rotation based on weather api. This means wallpaper will change depending on if it's cloudy/rainy outside or not during the day. More weather features will be added later.  
 
 **Short Term Features To Implement** 
 - Allow users to easily set location based on city
